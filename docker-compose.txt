@@ -1,0 +1,24 @@
+version: '3'
+services:
+  serverGoLang:
+        build:
+            dockerfile: Dockerfile
+            context: ./produce
+  kafka:
+    image: kafka
+    env:
+       KAFKA_CREATE_TOPICS: "number"
+    ports:
+      - "9092:9092"
+    volumes:
+      - /kafka/logs/:/tmp/kafka-logs
+    links:
+      - serverGoLang
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /myredis/logs/:/usr/local/etc/redis
+    links:
+      - kafka

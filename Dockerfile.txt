@@ -1,0 +1,14 @@
+FROM Centos
+RUN yum install httpd
+RUN yum install golang:1.14
+
+WORKDIR /go/src/app
+COPY pkg/* .
+
+EXPOSE 80
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+
+
+
